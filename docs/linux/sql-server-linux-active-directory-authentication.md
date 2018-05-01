@@ -168,12 +168,12 @@ For more information, see the Red Hat documentation for [Discovering and Joining
   > [!NOTE]
   > The next steps use your [fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name). If you are on **Azure**, you must **[create one](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/portal-create-fqdn)** before you proceed.
 
-1. On your domain controller, run the [New-ADUser](https://technet.microsoft.com/library/ee617253.aspx) PowerShell command to create a new AD user with a password that never expires. This example names the account "mssql," but the account name can be anything you like. You will be prompted to enter a new password for the account:
+1. On your domain controller, run the [New-ADUser](https://technet.microsoft.com/library/ee617253.aspx) PowerShell command to create a new AD user with a password that never expires. This example names the account "mssqlAD," but the account name can be anything you like. You will be prompted to enter a new password for the account:
 
    ```PowerShell
    Import-Module ActiveDirectory
 
-   New-ADUser mssql -AccountPassword (Read-Host -AsSecureString "Enter Password") -PasswordNeverExpires $true -Enabled $true
+   New-ADUser mssqlAD -AccountPassword (Read-Host -AsSecureString "Enter Password") -PasswordNeverExpires $true -Enabled $true
    ```
 
    > [!NOTE]
@@ -182,7 +182,7 @@ For more information, see the Red Hat documentation for [Discovering and Joining
 2. Set the ServicePrincipalName (SPN) for this account using the `setspn.exe` tool. The SPN must be formatted exactly as specified in the following example. You can find the fully qualified domain name of the [!INCLUDE[ssNoVersion](../includes/ssnoversion-md.md)] host machine by running `hostname --all-fqdns` on the [!INCLUDE[ssNoVersion](../includes/ssnoversion-md.md)] host, and the TCP port should be 1433 unless you have configured [!INCLUDE[ssNoVersion](../includes/ssnoversion-md.md)] to use a different port number.
 
    ```PowerShell
-   setspn -A MSSQLSvc/**<fully qualified domain name of host machine>**:**<tcp port>** mssql
+   setspn -A MSSQLSvc/**<fully qualified domain name of host machine>**:**<tcp port>** mssqlAD
    ```
 
    > [!NOTE]
@@ -197,7 +197,7 @@ For more information, see the Red Hat documentation for [Discovering and Joining
 1. Check the Key Version Number (kvno) for the AD account created in the previous step. Usually it is 2, but it could be another integer if you changed the account's password multiple times. On the [!INCLUDE[ssNoVersion](../includes/ssnoversion-md.md)] host machine, run the following:
 
    ```bash
-   kinit user@CONTOSO.COM
+   kinit mssqlAD@CONTOSO.COM
 
    kvno MSSQLSvc/**<fully qualified domain name of host machine>**:**<tcp port>**
    ```
