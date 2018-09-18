@@ -175,7 +175,7 @@ The SQL Server 2016 SP1 installation may require reboot post installation. As a 
 
 **Issue and customer impact:** Attempting to enable Stretch Database on a table that has an index that uses the INCLUDE keyword to include additional columns in the index fails with an error.
 
-**Workaround:** Drop the index that uses the INCLUDE keyword, enable Stretch Database on the table, then recreate the index. If you do this, be sure to follow your organization's maintenance practices and policies to ensure minimal or no impact to users of the affected table.
+**Workaround:** Drop the index that uses the INCLUDE keyword, enable Stretch Database on the table and allow the first batch of rows to be successfully delivered to AzureDB, then recreate the index. If you do this, be sure to follow your organization's maintenance practices and policies to ensure minimal or no impact to users of the affected table.
 
 ### <a name="bkmk_ga_query_store"></a>Query Store
 
